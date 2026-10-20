@@ -1,0 +1,11 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="Theme.AnvilMC" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/mint_glow</item>
+        <item name="colorPrimaryVariant">@color/mint_deep</item>
+        <item name="colorOnPrimary">@color/obsidian_black</item>
+        <item name="android:statusBarColor">@color/obsidian_black</item>
+        <item name="android:navigationBarColor">@color/obsidian_black</item>
+        <item name="android:windowBackground">@color/obsidian_black</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
+    </style>
+</resources>

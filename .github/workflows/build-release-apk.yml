@@ -1,0 +1,68 @@
+name: Build & Release Anvil-MC APK
+
+on:
+  push:
+    branches: [ "main", "master" ]
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-apk:
+    name: Compile Kotlin + Web APK & Release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+
+      - name: Grant Execute Permission to gradlew
+        run: chmod +x gradlew
+
+      - name: Build Debug & Release APKs
+        run: ./gradlew assembleDebug assembleRelease --stacktrace
+
+      - name: Prepare Release Artifacts
+        run: |
+          mkdir -p release-output
+          cp app/build/outputs/apk/release/app-release.apk release-output/Anvil-MC-v1.0.0.apk
+          cp app/build/outputs/apk/debug/app-debug.apk release-output/Anvil-MC-debug.apk
+
+      - name: Upload APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Anvil-MC-APK
+          path: release-output/*.apk
+          retention-days: 30
+
+      - name: Publish GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_type == 'tag' && github.ref_name || 'v1.0.0' }}
+          name: "Anvil-MC Mobile ${{ github.ref_type == 'tag' && github.ref_name || 'v1.0.0' }}"
+          body: |
+            ## ⚡ Anvil-MC Mobile Control Deck (${{ github.ref_type == 'tag' && github.ref_name || 'v1.0.0' }})
+            - **Hybrid Android Architecture**: Native Kotlin WebView + Native TCP Socket RCON (`MinecraftRconClient.kt`) + Haptics & File Exporter (`AnvilNativeBridge.kt`).
+            - **5 Complete Modules**: Anvil Hub Dashboard, Live Console & AI Crash Doctor, Players & World Manager, Visual Config Studio (`server.properties` + Live MOTD), and Anvil Forge (Modrinth API v2 + PaperMC API).
+            - **Ready to install**: Download `Anvil-MC-v1.0.0.apk` below on your Android device.
+          draft: false
+          prerelease: false
+          files: |
+            release-output/Anvil-MC-v1.0.0.apk
+            release-output/Anvil-MC-debug.apk
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

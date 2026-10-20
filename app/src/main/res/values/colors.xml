@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="obsidian_black">#050506</color>
+    <color name="deck_black">#0B0D0F</color>
+    <color name="mint_glow">#00FF9D</color>
+    <color name="mint_deep">#052E16</color>
+    <color name="anvil_amber">#F97316</color>
+</resources>
