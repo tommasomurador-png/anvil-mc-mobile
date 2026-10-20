@@ -1,22 +1,18 @@
 :root {
-  --bg-obsidian: #050506;
-  --deck-black: #0b0d0f;
-  --deck-darker: #101216;
-  --deck-card: #14171c;
-  --deck-card-hover: #191d24;
-  --deck-border: #1f242d;
-  --deck-subtle: #2a303c;
-  --deck-dim: #64748b;
-  --deck-light: #94a3b8;
-  --deck-white: #f8fafc;
-  --mint-glow: #00ff9d;
-  --mint-default: #10b981;
-  --mint-dark: #064e3b;
-  --mint-deep: #052e16;
-  --anvil-amber: #f97316;
-  --anvil-gold: #f59e0b;
-  --crimson: #ef4444;
-  --crimson-deep: #450a0a;
+  --bg-carbon: #0B0D0E;
+  --card-surface: #15181C;
+  --card-elevated: #1C2026;
+  --border-subtle: #262B33;
+  --emerald-primary: #22C55E;
+  --emerald-hover: #16A34A;
+  --emerald-deep: rgba(34, 197, 94, 0.14);
+  --danger-red: #EF4444;
+  --danger-deep: rgba(239, 68, 68, 0.14);
+  --warning-amber: #F59E0B;
+  --warning-deep: rgba(245, 158, 11, 0.14);
+  --text-primary: #F8FAFC;
+  --text-secondary: #94A3B8;
+  --text-muted: #64748B;
 }
 
 * {
@@ -29,9 +25,9 @@ html, body {
   padding: 0;
   width: 100%;
   height: 100%;
-  background-color: var(--bg-obsidian);
-  color: var(--deck-white);
-  font-family: 'Space Grotesk', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: var(--bg-carbon);
+  color: var(--text-primary);
+  font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   overscroll-behavior: none;
   overflow: hidden;
 }
@@ -44,7 +40,7 @@ html, body {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.12);
+  background: #262B33;
   border-radius: 9999px;
 }
 .no-scrollbar::-webkit-scrollbar {
@@ -55,7 +51,7 @@ html, body {
   scrollbar-width: none;
 }
 
-/* Desktop Smartphone Frame Shell (Active on >= 768px unless fullscreen-mode) */
+/* Desktop Smartphone Stage (430px x 92vh on desktop, 100% full screen on mobile/APK) */
 #desktop-stage {
   width: 100%;
   height: 100dvh;
@@ -64,20 +60,19 @@ html, body {
   align-items: center;
   justify-content: center;
   position: relative;
-  background: radial-gradient(circle at 50% 15%, rgba(0, 255, 157, 0.08), transparent 55%),
-              radial-gradient(circle at 85% 85%, rgba(249, 115, 22, 0.06), transparent 50%),
-              #050506;
+  background: radial-gradient(circle at 50% 10%, rgba(34, 197, 94, 0.08), transparent 55%),
+              #070809;
 }
 
 #phone-chassis {
   width: 100%;
   height: 100dvh;
-  background-color: var(--deck-black);
+  background-color: var(--bg-carbon);
   display: flex;
   flex-direction: column;
   position: relative;
   overflow: hidden;
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 #desktop-toolbar {
@@ -90,14 +85,13 @@ html, body {
   }
 
   body:not(.is-fullscreen) #phone-chassis {
-    width: 430px;
-    height: min(90dvh, 900px);
-    border-radius: 38px;
-    border: 8px solid #181c23;
+    width: 425px;
+    height: min(91dvh, 910px);
+    border-radius: 36px;
+    border: 7px solid #1A1E24;
     box-shadow:
-      0 0 0 1px rgba(0, 255, 157, 0.22),
-      0 28px 70px -15px rgba(0, 0, 0, 0.9),
-      0 0 50px -12px rgba(0, 255, 157, 0.12);
+      0 0 0 1px rgba(34, 197, 94, 0.2),
+      0 28px 70px -15px rgba(0, 0, 0, 0.92);
   }
 
   body.is-fullscreen #desktop-toolbar {
@@ -106,54 +100,23 @@ html, body {
 
   body.is-fullscreen #phone-chassis {
     width: 100%;
-    max-width: 960px;
+    max-width: 920px;
     height: 100dvh;
     border-radius: 0;
-    border-left: 1px solid var(--deck-border);
-    border-right: 1px solid var(--deck-border);
+    border-left: 1px solid var(--border-subtle);
+    border-right: 1px solid var(--border-subtle);
   }
 }
 
-/* Animations & Keyframes */
-@keyframes viewFadeSlide {
+/* Animations */
+@keyframes fadeSlideUp {
   0% {
     opacity: 0;
-    transform: translateY(10px) scale(0.992);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-@keyframes cardStagger {
-  0% {
-    opacity: 0;
-    transform: translateY(12px);
+    transform: translateY(10px);
   }
   100% {
     opacity: 1;
     transform: translateY(0);
-  }
-}
-
-@keyframes pulseMintGlow {
-  0%, 100% {
-    box-shadow: 0 0 12px rgba(0, 255, 157, 0.25), inset 0 0 8px rgba(0, 255, 157, 0.08);
-  }
-  50% {
-    box-shadow: 0 0 22px rgba(0, 255, 157, 0.5), inset 0 0 14px rgba(0, 255, 157, 0.18);
-  }
-}
-
-@keyframes pulseCrimsonAlert {
-  0%, 100% {
-    box-shadow: 0 0 10px rgba(239, 68, 68, 0.2), inset 0 0 6px rgba(239, 68, 68, 0.1);
-    border-color: rgba(239, 68, 68, 0.45);
-  }
-  50% {
-    box-shadow: 0 0 22px rgba(239, 68, 68, 0.55), inset 0 0 12px rgba(239, 68, 68, 0.22);
-    border-color: rgba(239, 68, 68, 0.9);
   }
 }
 
@@ -166,102 +129,127 @@ html, body {
   }
 }
 
+@keyframes bootBarIndeterminate {
+  0% {
+    transform: translateX(-100%);
+  }
+  50% {
+    transform: translateX(15%);
+  }
+  100% {
+    transform: translateX(110%);
+  }
+}
+
+@keyframes confettiFall {
+  0% {
+    transform: translateY(-20px) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(520px) rotate(540deg);
+    opacity: 0;
+  }
+}
+
 @keyframes obfuscatedGlitch {
   0%, 100% { opacity: 1; transform: skewX(0deg); }
-  25% { opacity: 0.75; transform: skewX(-6deg); }
-  75% { opacity: 0.9; transform: skewX(6deg); }
+  33% { opacity: 0.78; transform: skewX(-7deg); }
+  66% { opacity: 0.9; transform: skewX(7deg); }
 }
 
 .view-animate {
-  animation: viewFadeSlide 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-.stagger-1 { animation: cardStagger 0.25s cubic-bezier(0.16, 1, 0.3, 1) 0.03s both; }
-.stagger-2 { animation: cardStagger 0.25s cubic-bezier(0.16, 1, 0.3, 1) 0.07s both; }
-.stagger-3 { animation: cardStagger 0.25s cubic-bezier(0.16, 1, 0.3, 1) 0.11s both; }
-.stagger-4 { animation: cardStagger 0.25s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both; }
-.stagger-5 { animation: cardStagger 0.25s cubic-bezier(0.16, 1, 0.3, 1) 0.19s both; }
-
-.glow-mint-active {
-  animation: pulseMintGlow 2.8s infinite ease-in-out;
-}
-
-.crash-alert-pulse {
-  animation: pulseCrimsonAlert 1.6s infinite ease-in-out;
+  animation: fadeSlideUp 0.24s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 .sheet-enter {
-  animation: sheetSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: sheetSlideUp 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-/* Tactile Press & Micro-Interactions */
+.boot-bar-anim {
+  animation: bootBarIndeterminate 1.4s infinite ease-in-out;
+}
+
+.confetti-piece {
+  position: absolute;
+  width: 8px;
+  height: 12px;
+  border-radius: 2px;
+  pointer-events: none;
+  animation: confettiFall 2.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+/* Tactile Buttons */
 .tactile-btn {
   transition: transform 0.14s cubic-bezier(0.16, 1, 0.3, 1),
               background-color 0.18s ease,
               border-color 0.18s ease,
-              box-shadow 0.18s ease,
-              color 0.18s ease;
+              color 0.18s ease,
+              box-shadow 0.18s ease;
 }
 .tactile-btn:active:not(:disabled) {
-  transform: scale(0.95);
+  transform: scale(0.96);
 }
 
-.tactile-card {
-  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
-              border-color 0.2s ease,
-              background-color 0.2s ease,
-              box-shadow 0.2s ease;
-}
-.tactile-card:hover {
-  border-color: rgba(0, 255, 157, 0.32);
-}
-
-/* Custom Toggle Switch */
-.obsidian-switch {
-  width: 40px;
-  height: 22px;
+/* Custom Anvil-MC v2.0.7 Emerald Toggle Switch */
+.anvil-toggle {
+  width: 44px;
+  height: 24px;
   border-radius: 9999px;
   padding: 2px;
   display: inline-flex;
   align-items: center;
   cursor: pointer;
-  transition: background-color 0.22s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.22s ease;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+  border: 1px solid #262B33;
+  flex-shrink: 0;
 }
-.obsidian-switch[aria-checked="true"] {
-  background-color: rgba(0, 255, 157, 0.2);
-  border-color: rgba(0, 255, 157, 0.55);
+.anvil-toggle[aria-checked="true"] {
+  background-color: #22C55E;
+  border-color: #22C55E;
 }
-.obsidian-switch[aria-checked="false"] {
-  background-color: #1c222b;
+.anvil-toggle[aria-checked="false"] {
+  background-color: #262B33;
 }
-.obsidian-switch-thumb {
-  width: 16px;
-  height: 16px;
+.anvil-toggle-thumb {
+  width: 18px;
+  height: 18px;
   border-radius: 9999px;
-  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.22s ease, box-shadow 0.22s ease;
+  background-color: #FFFFFF;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.obsidian-switch[aria-checked="true"] .obsidian-switch-thumb {
-  transform: translateX(18px);
-  background-color: #00ff9d;
-  box-shadow: 0 0 8px #00ff9d;
+.anvil-toggle[aria-checked="true"] .anvil-toggle-thumb {
+  transform: translateX(20px);
 }
-.obsidian-switch[aria-checked="false"] .obsidian-switch-thumb {
+.anvil-toggle[aria-checked="false"] .anvil-toggle-thumb {
   transform: translateX(0);
-  background-color: #64748b;
 }
 
-/* Minecraft Obfuscated (§k) text */
+/* Range Input Emerald Styling */
+input[type="range"].anvil-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  background: #262B33;
+  border-radius: 9999px;
+  outline: none;
+}
+input[type="range"].anvil-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 9999px;
+  background: #22C55E;
+  border: 2px solid #0B0D0E;
+  box-shadow: 0 0 8px rgba(34, 197, 94, 0.55);
+  cursor: pointer;
+}
+
 .mc-obf {
   display: inline-block;
-  animation: obfuscatedGlitch 0.18s infinite;
+  animation: obfuscatedGlitch 0.16s infinite;
   font-family: 'JetBrains Mono', monospace;
-}
-
-/* Terminal Inset */
-.terminal-window {
-  background-color: #050709;
-  box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.85);
-  background-image: radial-gradient(rgba(0, 255, 157, 0.03) 1px, transparent 0);
-  background-size: 16px 16px;
 }

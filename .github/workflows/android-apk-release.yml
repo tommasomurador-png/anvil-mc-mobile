@@ -1,0 +1,69 @@
+name: Android APK Build & Release (v2.0.7)
+
+on:
+  push:
+    branches: [ main, master ]
+    tags: [ 'v*' ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: 'gradle'
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+
+      - name: Build Debug & Release APK (v2.0.7)
+        run: |
+          ./gradlew assembleDebug assembleRelease --no-daemon
+          cp app/build/outputs/apk/release/app-release.apk Anvil-MC-v2.0.7.apk
+          cp app/build/outputs/apk/debug/app-debug.apk Anvil-MC-v2.0.7-debug.apk
+
+      - name: Upload APK Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: Anvil-MC-v2.0.7-APKs
+          path: |
+            Anvil-MC-v2.0.7.apk
+            Anvil-MC-v2.0.7-debug.apk
+
+      - name: Publish GitHub Release (Anvil-MC v2.0.7)
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name == 'main' && 'v2.0.7' || github.ref_name }}
+          name: "anvil-mc v2.0.7 — Dark Carbon & Emerald Edition"
+          body: |
+            ## 🟢 anvil-mc (v2.0.7) — Server Minecraft sul tuo Telefono
+            Release ufficiale Android `.apk` di **anvil-mc v2.0.7** (Lingua Italiana — Design System *Dark Carbon & Emerald*).
+
+            ### ✨ Novità & Funzionalità v2.0.7
+            - **Design System Fedele al 100% ("Dark Carbon & Emerald")**: Palette `#0B0D0E` / `#15181C` / `#22C55E` / `#EF4444` / `#F59E0B`, header fisso con selettore `🌐 Tunnel: EU ▾` e Bottom Navigation a 5 tab con pulsante centrale `+ Crea`.
+            - **Schermata Home & Ciclo di Avvio Realistico**: Server pre-caricato `Hub Creativo` (`Fabric 26.3 • Max 20 giocatori`), transizioni `ONLINE (LOCALE)` ↔ `🟠 ARRESTO...` ↔ `⚪ OFFLINE` ↔ `🟠 AVVIO SERVER...` (con CPU 100%, barra TPS animata, salita RAM `72MB -> 559MB` e stream log console), Bottom Sheet post-avvio *"Lascia che gli amici si uniscano al tuo mondo"*, Diagnostica `?`, Gestione Giocatori (5 filtri) e Paywall **Anvil-MC PREMIUM**.
+            - **9 Sottopagine Impostazioni Complete**: `Generale`, `Gioco`, `Mondo` (seed e backup `.zip`), `Mod & Plugin` (ricerca reale su **Modrinth API v2** con paginazione e installazione live in `/mods`), `Software` (Paper, Purpur, Spigot, Fabric, Vanilla), `Prestazioni` (slider RAM con blocco sicurezza a 4096 MB, Aikar's Flags), `Rete` (Cross-Play Geyser + Floodgate, RCON), `Backup` e `Automazione`.
+            - **Console Live**: Filtri `Tutto / Info / Warn / Errori`, Ricerca log, Auto-scroll, 6 Quick-Command Chips (`/help`, `/list`, `/tps`, `/save-all`, `/weather clear`, `/stop`) e input comandi interattivo + RCON TCP nativo.
+            - **Setup Guidato in 8 Step (+ Crea)**: Percorso `Setup guidato` in 8 step progressivi (Nome, Tipo Server con filtro versione per Mod/Plugin, Versione 26.x / 1.21.11 / Altre versioni, Giocatori, Mondo & Difficoltà, Regole con chip PvP/Volo/Keep Inventory/Ciclo Giorno, Riepilogo + barra RAM dispositivo reale e Celebrazione finale con coriandoli).
+            - **File Manager & Profilo**: Esplorazione `/mods`, `/world`, `server.properties`, `logs/` con editor integrato, blocco di sicurezza con pressione prolungata per eliminare il server e scheda Profilo (`Tommaso Murador`, statistiche, stato dispositivo in tempo reale).
+          draft: false
+          prerelease: false
+          files: |
+            Anvil-MC-v2.0.7.apk
+            Anvil-MC-v2.0.7-debug.apk
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -23,21 +23,24 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Enable edge-to-edge full obsidian immersion
+        // Enable edge-to-edge Dark Carbon & Emerald immersion (#0B0D0E)
         WindowCompat.setDecorFitsSystemWindows(window, false)
-        window.statusBarColor = Color.parseColor("#050506")
-        window.navigationBarColor = Color.parseColor("#050506")
+        @Suppress("DEPRECATION")
+        window.statusBarColor = Color.parseColor("#0B0D0E")
+        @Suppress("DEPRECATION")
+        window.navigationBarColor = Color.parseColor("#0B0D0E")
 
         webView = WebView(this).apply {
             layoutParams = ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT
             )
-            setBackgroundColor(Color.parseColor("#050506"))
+            setBackgroundColor(Color.parseColor("#0B0D0E"))
 
             settings.apply {
                 javaScriptEnabled = true
                 domStorageEnabled = true
+                @Suppress("DEPRECATION")
                 databaseEnabled = true
                 allowFileAccess = true
                 allowContentAccess = true
@@ -63,16 +66,11 @@ class MainActivity : AppCompatActivity() {
                     view: WebView?,
                     request: WebResourceRequest?
                 ): Boolean {
-                    val url = request?.url?.toString() ?: return false
-                    if (url.startsWith("file:///android_asset/")) {
-                        return false
-                    }
                     return false
                 }
             }
         }
 
-        // Apply safe-area padding via WindowInsets so notch and gesture bars are respected
         ViewCompat.setOnApplyWindowInsetsListener(webView) { view, windowInsets ->
             val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
             view.setPadding(insets.left, insets.top, insets.right, insets.bottom)
@@ -81,7 +79,6 @@ class MainActivity : AppCompatActivity() {
 
         setContentView(webView)
 
-        // Intercept physical Back button to navigate SPA modals/tabs before exiting
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 webView.evaluateJavascript(

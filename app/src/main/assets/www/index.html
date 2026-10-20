@@ -3,12 +3,12 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-  <meta name="theme-color" content="#050506" />
-  <title>Anvil-MC — Mobile Minecraft Server Deck</title>
+  <meta name="theme-color" content="#0B0D0E" />
+  <title>anvil-mc (v2.0.7) — Server Minecraft sul tuo Telefono</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
 
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
@@ -18,26 +18,27 @@
       theme: {
         extend: {
           colors: {
-            deck: {
-              black: '#0b0d0f',
-              darker: '#101216',
-              card: '#14171c',
-              border: '#1f242d',
-              subtle: '#2a303c',
-              dimText: '#64748b',
-              lightText: '#94a3b8',
-              white: '#f8fafc'
+            carbon: {
+              bg: '#0B0D0E',
+              surface: '#15181C',
+              elevated: '#1C2026',
+              border: '#262B33',
+              text: '#F8FAFC',
+              muted: '#94A3B8'
             },
-            mint: {
-              glow: '#00ff9d',
-              DEFAULT: '#10b981',
-              dark: '#064e3b',
-              deep: '#052e16'
+            emerald: {
+              anvil: '#22C55E'
+            },
+            danger: {
+              anvil: '#EF4444'
+            },
+            warning: {
+              anvil: '#F59E0B'
             }
           },
           fontFamily: {
             mono: ['JetBrains Mono', 'monospace'],
-            sans: ['Space Grotesk', 'Plus Jakarta Sans', 'sans-serif']
+            sans: ['Plus Jakarta Sans', 'Space Grotesk', 'sans-serif']
           }
         }
       }
@@ -45,16 +46,16 @@
   </script>
   <link rel="stylesheet" href="css/anvil.css" />
 </head>
-<body class="bg-[#050506] text-deck-white font-sans antialiased select-none">
+<body class="bg-[#0B0D0E] text-[#F8FAFC] font-sans antialiased select-none">
   <div id="desktop-stage">
     <!-- Desktop Preview Top Utility Bar (Visible only on Desktop Browser) -->
-    <div id="desktop-toolbar" class="w-full max-w-[430px] mb-2.5 px-2 items-center justify-between text-xs font-mono text-deck-lightText">
+    <div id="desktop-toolbar" class="w-full max-w-[430px] mb-2.5 px-2 items-center justify-between text-xs font-mono text-[#94A3B8]">
       <div class="flex items-center gap-2">
-        <span class="w-2 h-2 rounded-full bg-mint-glow animate-pulse"></span>
-        <span class="font-bold text-white">ANVIL-MC v1.0.0</span>
-        <span class="text-[10px] text-deck-dimText">• OBSIDIAN DECK</span>
+        <span class="w-2 h-2 rounded-full bg-[#22C55E] animate-pulse"></span>
+        <span class="font-bold text-[#F8FAFC]">anvil-mc v2.0.7</span>
+        <span class="text-[10px] text-[#94A3B8]">• DARK CARBON & EMERALD</span>
       </div>
-      <button id="btn-toggle-fullscreen" type="button" class="tactile-btn flex items-center gap-1 px-2.5 py-1 rounded-md bg-deck-card border border-deck-border text-mint-glow hover:border-mint-glow/50 text-[10px] font-bold">
+      <button id="btn-toggle-fullscreen" type="button" class="tactile-btn flex items-center gap-1 px-2.5 py-1 rounded-md bg-[#15181C] border border-[#262B33] text-[#22C55E] hover:border-[#22C55E]/50 text-[10px] font-bold">
         <span class="material-symbols-outlined text-[14px]">fullscreen</span>
         <span>Schermo Intero</span>
       </button>
@@ -62,8 +63,8 @@
 
     <!-- Smartphone Interactive Chassis (430px x 90vh on desktop, 100% full screen on Android APK) -->
     <div id="phone-chassis">
-      <!-- Fixed Top Sleek Deck Header -->
-      <header class="shrink-0 z-40 bg-deck-black/95 backdrop-blur-md border-b border-deck-border/70">
+      <!-- Fixed Top Header -->
+      <header class="shrink-0 z-40 bg-[#0B0D0E]/95 backdrop-blur-md border-b border-[#262B33]">
         <div id="app-header-content" class="h-14 px-3.5 flex items-center justify-between gap-2 max-w-lg mx-auto"></div>
       </header>
 
@@ -71,17 +72,17 @@
       <main id="app-main-viewport" class="flex-1 overflow-y-auto overflow-x-hidden px-3.5 pt-3 pb-6 max-w-lg w-full mx-auto"></main>
 
       <!-- Global Toast Feedback Banner -->
-      <div id="global-toast" class="fixed bottom-16 inset-x-4 max-w-sm mx-auto pointer-events-none opacity-0 translate-y-4 transition-all duration-300 z-50 flex items-center justify-between px-3.5 py-2.5 rounded-xl bg-deck-card border border-mint-glow/40 text-white shadow-[0_8px_30px_rgba(0,0,0,0.85)]">
+      <div id="global-toast" class="fixed bottom-20 inset-x-4 max-w-sm mx-auto pointer-events-none opacity-0 translate-y-4 transition-all duration-300 z-50 flex items-center justify-between px-3.5 py-2.5 rounded-xl bg-[#1C2026] border border-[#22C55E]/40 text-[#F8FAFC] shadow-[0_8px_30px_rgba(0,0,0,0.85)]">
         <div class="flex items-center gap-2 min-w-0">
-          <span id="global-toast-icon" class="material-symbols-outlined text-mint-glow text-[19px]">check_circle</span>
+          <span id="global-toast-icon" class="material-symbols-outlined text-[#22C55E] text-[19px]">check_circle</span>
           <span id="global-toast-msg" class="text-xs font-medium truncate">Operazione completata</span>
         </div>
-        <span id="global-toast-badge" class="font-mono text-[9px] text-mint-glow font-bold pl-2 shrink-0">ANVIL OS</span>
+        <span id="global-toast-badge" class="font-mono text-[9px] text-[#22C55E] font-bold pl-2 shrink-0">v2.0.7</span>
       </div>
 
       <!-- Fixed 5-Tab Bottom Navigation Bar -->
-      <nav class="shrink-0 z-40 bg-deck-black/95 backdrop-blur-xl border-t border-deck-border">
-        <div id="app-bottom-nav" class="flex justify-around items-center h-14 max-w-lg mx-auto px-2"></div>
+      <nav class="shrink-0 z-40 bg-[#0B0D0E]/95 backdrop-blur-xl border-t border-[#262B33]">
+        <div id="app-bottom-nav" class="flex justify-around items-center h-16 max-w-lg mx-auto px-2"></div>
       </nav>
 
       <!-- Dynamic Modal & Bottom Sheet Host -->
